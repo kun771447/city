@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@tweenjs/tween.js':
+    specifier: ^20.0.3
+    version: 20.0.3
   three:
     specifier: ^0.152.2
     version: 0.152.2
@@ -238,6 +241,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@tweenjs/tween.js@20.0.3:
+    resolution: {integrity: sha512-SYUe1UgY5HM05EB4+0B4arq2IPjvyzKXoklXKxSYrc2IFxGm1cBrqg5XbiB5uwbs0xY5j+rj986NAJMM0KZaUw==}
+    dev: false
 
   /@vitejs/plugin-vue@4.1.0(vite@4.3.2)(vue@3.2.47):
     resolution: {integrity: sha512-++9JOAFdcXI3lyer9UKUV4rfoQ3T1RN8yDqoCLar86s0xQct5yblxAE+yWgRnU5/0FOlVCpTZpYSBV/bGWrSrQ==}

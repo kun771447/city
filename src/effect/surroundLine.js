@@ -6,13 +6,16 @@ export class SurroundLine {
         this.scene = scene;
         this.child = child;
         
-
         // 模型颜色，底部显示颜色
         this.meshColor = color.mesh;
         // 头部颜色，顶部显示颜色
         this.headColor = color.head;
 
-        this.render();
+        // 创建物体
+        this.createMesh();
+
+        // 创建描边线框
+        this.createLine();
     }
 
     computedMesh() {
@@ -20,7 +23,7 @@ export class SurroundLine {
         this.child.geometry.computeBoundingSphere();
     }
 
-    render() {
+    createMesh() {
         this.computedMesh();
 
         const { max, min} = this.child.geometry.boundingBox;
@@ -72,5 +75,42 @@ export class SurroundLine {
         mesh.scale.copy(this.child.scale);
 
         this.scene.add(mesh);
+    }
+
+    createLine() {
+        // 获取建筑物的外围
+        const geometry = new THREE.EdgesGeometry(this.child.geometry);
+
+        // const material = new THREE.LineBasicMaterial({ color: color.soundLine })
+
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                line_color: {
+                    value: new THREE.Color(color.soundLine)
+                }
+            },
+            vertexShader: `
+                void main() {
+                    gl_Position = projectionMatrix *  modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 line_color;
+
+                void main() {
+                    gl_FragColor = vec4(line_color, 1.0);
+                }
+            `
+        })
+
+        // 创建线条
+        const line = new THREE.LineSegments(geometry, material);
+
+        // 继承建筑物的偏移量和旋转
+        line.scale.copy(this.child.scale);
+        line.rotation.copy(this.child.rotation)
+        line.position.copy(this.child.position)
+
+        this.scene.add(line)
     }
 }
